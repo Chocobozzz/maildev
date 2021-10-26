@@ -1,7 +1,7 @@
 {
   "name": "@peertube/maildev",
   "description": "PeerTube fork of maildev",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Dan Farrelly",
   "homepage": "https://github.com/Chocobozzz/maildev",
   "maintainers": [
