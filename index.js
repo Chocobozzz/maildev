@@ -7,9 +7,7 @@
  */
 
 const program = require('commander')
-const async = require('async')
 const pkg = require('./package.json')
-const web = require('./lib/web')
 const mailserver = require('./lib/mailserver')
 const logger = require('./lib/logger')
 const { options, appendOptions } = require('./lib/options')
@@ -64,42 +62,9 @@ module.exports = function (config) {
     mailserver.loadMailsFromDirectory()
   }
 
-  // Start the web server
-  if (!config.disableWeb) {
-    const secure = {
-      https: config.https,
-      cert: config.httpsCert,
-      key: config.httpsKey
-    }
-
-    // Default to run on same IP as smtp
-    const webIp = config.webIp ? config.webIp : config.ip
-
-    web.start(
-      config.web,
-      webIp,
-      mailserver,
-      config.webUser,
-      config.webPass,
-      config.basePathname,
-      secure
-    )
-
-    if (config.open) {
-      const open = require('opn')
-      open('http://' + (config.ip === '0.0.0.0' ? 'localhost' : config.ip) + ':' + config.web)
-    }
-
-    // Close the web server when the mailserver closes
-    mailserver.on('close', web.close)
-  }
-
   function shutdown () {
     logger.info(`Received shutdown signal, shutting down now...`)
-    async.parallel([
-      mailserver.close,
-      web.close
-    ], function () {
+    mailserver.close(function () {
       process.exit(0)
     })
   }
