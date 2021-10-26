@@ -37,33 +37,12 @@ module.exports = function (config) {
     config.hideExtensions
   )
 
-  if (
-    config.outgoingHost ||
-    config.outgoingPort ||
-    config.outgoingUser ||
-    config.outgoingPass ||
-    config.outgoingSecure
-  ) {
-    mailserver.setupOutgoing(
-      config.outgoingHost,
-      parseInt(config.outgoingPort),
-      config.outgoingUser,
-      config.outgoingPass,
-      config.outgoingSecure
-    )
-  }
-
-  if (config.autoRelay) {
-    const emailAddress = typeof config.autoRelay === 'string' ? config.autoRelay : null
-    mailserver.setAutoRelayMode(true, config.autoRelayRules, emailAddress)
-  }
-
   if (config.mailDirectory) {
     mailserver.loadMailsFromDirectory()
   }
 
   function shutdown () {
-    logger.info(`Received shutdown signal, shutting down now...`)
+    logger.info('Received shutdown signal, shutting down now...')
     mailserver.close(function () {
       process.exit(0)
     })

@@ -16,7 +16,6 @@ describe('mailserver', function () {
     it('Error should be thrown, because listening to server did not work', function (done) {
       const server = http.createServer(() => {})
       const maildev = new MailDev({
-        disableWeb: true,
         silent: true,
         smtp: 9025
       })
@@ -25,7 +24,7 @@ describe('mailserver', function () {
 
       // https://stackoverflow.com/a/9132271/3143704
 
-      var originalHandler = process.listeners('uncaughtException').pop()
+      const originalHandler = process.listeners('uncaughtException').pop()
       process.removeListener('uncaughtException', originalHandler)
 
       process.once('uncaughtException', function (err) {
@@ -41,8 +40,7 @@ describe('mailserver', function () {
       const maildev = new MailDev({
         incomingUser: 'bodhi',
         incomingPass: 'surfing',
-        silent: true,
-        disableWeb: true
+        silent: true
       })
 
       maildev.listen(function (err) {
@@ -80,8 +78,7 @@ describe('mailserver', function () {
       const maildev = new MailDev({
         incomingUser: 'bodhi',
         incomingPass: 'surfing',
-        silent: true,
-        disableWeb: true
+        silent: true
       })
 
       maildev.listen(function (err) {

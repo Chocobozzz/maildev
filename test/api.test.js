@@ -15,26 +15,20 @@ describe('API', function () {
     it('should accept arguments', function (done) {
       const maildev = new MailDev({
         smtp: 1026,
-        web: 9000,
-        outgoingHost: 'smtp.gmail.com',
-        silent: true,
-        disableWeb: true
+        silent: true
       })
 
       assert.strictEqual(maildev.port, 1026)
-      assert.strictEqual(maildev.getOutgoingHost(), 'smtp.gmail.com')
 
       maildev.close(done)
     })
 
     it('should return mailserver object', function (done) {
       const maildev = new MailDev({
-        silent: true,
-        disableWeb: true
+        silent: true
       })
 
-      assert.strictEqual(typeof maildev.getEmail, 'function')
-      assert.strictEqual(typeof maildev.relayMail, 'function')
+      assert.strictEqual(typeof maildev.getRawEmail, 'function')
 
       maildev.close(done)
     })
@@ -42,8 +36,7 @@ describe('API', function () {
 
   describe('listen/close', function () {
     const maildev = new MailDev({
-      silent: true,
-      disableWeb: true
+      silent: true
     })
 
     it('should start the mailserver', function (done) {
@@ -58,8 +51,7 @@ describe('API', function () {
   describe('Email', function () {
     it('should receive emails', function (done) {
       const maildev = new MailDev({
-        silent: true,
-        disableWeb: true
+        silent: true
       })
 
       const emailOpts = {
@@ -101,8 +93,7 @@ describe('API', function () {
 
     it('should emit events when receiving emails', function (done) {
       const maildev = new MailDev({
-        silent: true,
-        disableWeb: true
+        silent: true
       })
 
       const transporter = nodemailer.createTransport({
